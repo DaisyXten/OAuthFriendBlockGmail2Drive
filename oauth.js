@@ -1,10 +1,9 @@
-window.onload = async function() {
+window.onload = function() {
     document.querySelector('button#button01').addEventListener('click', function() {
         chrome.identity.getAuthToken({interactive: true}, function(token) {
             // Use the token.
             let init = {
                 method: 'GET',
-                async: true,
                 headers: {
                     Authorization: 'Bearer ' + token,
                     'Content-Type': 'application/json',
@@ -25,26 +24,46 @@ window.onload = async function() {
             // Use the token.
             let init = {
                 method: 'GET',
-                async: true,
                 headers: {
                     Authorization: 'Bearer ' + token,
                     'Content-Type': 'application/json',
                 },
             };
-            fetch(  
-                'https://gmail.googleapis.com/gmail/v1/users/me/profile', // access_token={YOUR_API_KEY}
-                init)
-                .then((response) => response.json())
+// long time error because of permission is not according to official page, but according to some stackoverflow website, just need to add "https://www.googleapis.com/auth/drive.apps.readonly", that's enough           
+            // fetch('https://www.googleapis.com/drive/v3/apps',init) // works now, results {kind: 'drive#appList', selfLink: 'https://www.googleapis.com/drive/v3/apps', items: Array(22), defaultAppIds: Array(15)}, 
+            // fetch('https://www.googleapis.com/drive/v3/about',init)
+            fetch('https://www.googleapis.com/drive/v3/files',init) // works perfectly.
+            .then((response) => response.json())
                 .then(function(data) {
                     console.log(data);
                 });
-            fetch(  
-                'https://gmail.googleapis.com/gmail/v1/users/me/labels',
-                init)
-                .then((response) => response.json())
-                .then(function(data) {
-                    console.log(data);
-                });
+            // fetch(  
+            //     'https://gmail.googleapis.com/gmail/v1/users/me/profile', // access_token={YOUR_API_KEY}
+            //     init)
+            //     .then((response) => response.json())
+            //     .then(function(data) {
+            //         console.log(data);
+            //     });
+            // fetch(  
+            //     'https://gmail.googleapis.com/gmail/v1/users/me/labels',
+            //     init)
+            //     .then((response) => response.json())
+            //     .then(function(data) {
+            //         console.log(data);
+            //     });
+            // fetch(
+            //    'https://gmail.googleapis.com/gmail/v1/users/{userId}/messages',
+            //    .then((response) => response.json())
+            //     .then(function(data) {
+            //         console.log(data);
+            //     });
+            // use query parameter, q=has:attachment, return messages[id, threadId]
+            // fetch('https://gmail.googleapis.com/gmail/v1/users/{userId}/messages/{messageId}/attachments/{id}',
+            //     init)
+            //     .then((response) => response.json())
+            //     .then(function(data) {
+            //         console.log(data);
+            //     });
         });
     });
 
@@ -57,6 +76,7 @@ window.onload = async function() {
     }); 
 }
 
+// async/await
 async function fetchMessageJson(token){
     let init = {
         method: 'GET',

@@ -1,7 +1,7 @@
 {
-    "name": "OAuth2 Tutorial FriendBlock 3.0",
-    "version": "3.0",
-    "description": "Uses OAuth to connect to Google's People API and display contacts photos.",
+    "name": "OAuth2 Attachment to Drive",
+    "version": "0.1",
+    "description": "OAuth connect to Google People API, Gmail and google drive API. attach to drive",
     "manifest_version": 3,
     "key":"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAogLDV0iKEzAY0dfVZrKmXQ1FCcDoAfB7UzAqOCgxEqAUHGyhFtsApbSxlTe/vcfWTomWsEam9afJvBSJcAIzIf87KjfHEYPna65INTIZa2mmIKKh8GebyJgf88rMWAf9dq1uvGEk+VwY/sdxnQ3Fi+ZTdoi1DKeJi6lWqavS1jU5kqXKeNPJa+DYrwcWN7g/fpZmhizY3iNep5QEU086A3SY38Lz7EF6ggM7wErXomhUgNGqkyOT2lFOU9Z+TYW9+TAJ1/YiM3ckvMqqa77AzaBVsuSPZRCXfF/ywr/ulQNO6Xg+ep8/crK/X9ZHnNuvgAtJbxUmb6RqgXKPT775OwIDAQAB",
     "oauth2":{
@@ -11,20 +11,44 @@
             "https://www.googleapis.com/auth/contacts.readonly",
             
             "https://mail.google.com/",
-            "https://www.googleapis.com/auth/gmail.modify",
-            "https://www.googleapis.com/auth/gmail.compose",
+            "https://www.googleapis.com/auth/gmail.modify"
+            // "https://www.googleapis.com/auth/gmail.compose",
 
-            "https://www.googleapis.com/auth/gmail.labels"
+            // "https://www.googleapis.com/auth/gmail.labels",
 
+            // "https://www.googleapis.com/auth/drive",
+            // "https://www.googleapis.com/auth/drive.appdata",
+            // "https://www.googleapis.com/auth/drive.apps.readonly",
+            // "https://www.googleapis.com/auth/drive.file",
+            // "https://www.googleapis.com/auth/drive.metadata",
+            // "https://www.googleapis.com/auth/drive.photos.readonly",
+            // "https://www.googleapis.com/auth/drive.appfolder",
+            // "https://www.googleapis.com/auth/drive.metadata.readonly",
+            // "https://www.googleapis.com/auth/drive.install",
+            // "https://www.googleapis.com/auth/drive.photos.readonly",
+            // "https://www.googleapis.com/auth/drive.readonly"
         ]
     },
     "permissions": [
-        "identity"
+        "identity",
+        "activeTab",
+        "tabs", 
+        "scripting"
     ],
     "action": {
         "default_title": "FriendBlock 3.0, friends face's in a block."
     },
     "background": {
         "service_worker": "background.js"
+    },
+    "content_scripts": [
+    {
+        "matches": ["https://mail.google.com/*"],
+        "js": ["content.js"],
+        "run_at": "document_idle"
+    }
+    ],
+    "icons":{
+        "16": "images/Upload.png"
     }
 }
